@@ -1,0 +1,28 @@
+{
+    "name": "lifo/symfony-typeahead-bundle",
+    "type": "symfony-bundle",
+    "description": "A Symfony2 bundle that provides a Bootstrap Typeahead form type.",
+    "keywords": ["symfony","typeahead","autocomplete"],
+    "homepage": "https://github.com/lifo101/symfony-typeahead-bundle",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Jason Morriss",
+            "email": "lifo2013@gmail.com"
+        },
+    ],
+    "require": {
+        "php": ">=5.3.2",
+    },
+    "require-dev": {
+    },
+    "autoload": {
+        "psr-0": { "Lifo\\TypeaheadBundle": "src/" }
+    },
+    "target-dir": "Lifo/TypeaheadBundle",
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0-dev"
+        }
+    }
+}

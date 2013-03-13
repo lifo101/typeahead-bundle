@@ -1,0 +1,7 @@
+parameters:
+#    lifo_typeahead.example.class: Lifo\TypeaheadBundle\Example
+
+services:
+#    lifo_typeahead.example:
+#        class: %lifo_typeahead.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]

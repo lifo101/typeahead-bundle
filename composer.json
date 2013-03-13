@@ -17,7 +17,7 @@
     "require-dev": {
     },
     "autoload": {
-        "psr-0": { "Lifo\\TypeaheadBundle": "src/" }
+        "psr-0": { "Lifo\\TypeaheadBundle": "" }
     },
     "target-dir": "Lifo/TypeaheadBundle",
     "extra": {

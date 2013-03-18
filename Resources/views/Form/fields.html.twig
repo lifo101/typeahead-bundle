@@ -1,0 +1,60 @@
+{% block entity_typeahead_widget %}
+{% spaceless %}
+    {% set required, main_full_name, main_id, main_value, main_attr = false, full_name, id, value, attr %}
+
+    {# create visible autocomplete input #}
+    {% set id = main_id ~ '_text' %}
+    {% set full_name = null %}
+    {% set value = multiple ? empty_value : attribute(form.vars.data, render)|default(main_value) %}
+    {% set attr = attr|merge({
+        'autocomplete': 'off',
+        'data-provide': 'lifo-typeahead',
+        'data-items': items|default(8),
+        'data-minlength': minLength|default(2),
+        'data-loadingiconurl': loadingIconUrl,
+        'data-resetonselect': resetOnSelect,
+        'data-delay': delay,
+        'data-route': route,
+        'data-route-params': route_params ? route_params|json_encode : '',
+        'data-url': url
+    }) %}
+    {{ block('form_widget_simple') }}
+
+    {# create hidden input to store the currently selected entity ID #}
+    {% set attr = main_attr %}
+    {% if multiple %}
+        {% set attr = attr|merge({'data-prototype': block('entity_typeahead_list_widget') }) %}
+        {% set id, full_name, value = main_id, '', '' %}
+    {% else %}
+        {% set id, full_name, value = main_id, main_full_name, main_value %}
+    {% endif %}
+    {{ block('hidden_widget') }}
+
+    {# If multiple entities are allowed display current entities as a list #}
+    {% if multiple %}
+        {% set id, full_name = main_id, main_full_name %}
+        {{ block('entity_typeahead_multiple_widget') }}
+    {% endif %}
+{% endspaceless %}
+{% endblock %}
+
+{% block entity_typeahead_multiple_widget %}
+{% spaceless %}
+    <div class="lifo-typeahead-wrapper">
+        <ul class="lifo-typeahead-list" id="{{ id }}_list">
+        {% for child in form.vars.data if child is not null %}
+            {{ block('entity_typeahead_list_widget') }}
+        {% endfor %}
+        </ul>
+    </div>
+{% endspaceless %}
+{% endblock %}
+
+{% block entity_typeahead_list_widget %}
+{% spaceless %}
+    <li{% if child is not null %} data-value="{{ child.id }}"{% endif %}>
+        <input{% if child is not null %} id="{{ id ~ '_' ~ child.id }}" name="{{ full_name }}[]" value="{{ attribute(child, property ? property : 'id') }}"{% endif %} type="hidden" />
+        <a href="" class="lifo-typeahead-item">{{ child is not null ? attribute(child, render) : '' }}</a>
+    </li>
+{% endspaceless %}
+{% endblock %}

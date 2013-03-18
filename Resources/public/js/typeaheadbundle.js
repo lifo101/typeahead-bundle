@@ -260,7 +260,7 @@
                 li = $( this.$id.data('prototype') );
                 li.data('value', data.id)
                     .find('input:hidden').val(data.id).attr('id', _id + '_' + data.id).attr('name', name).end()
-                    .find('a').text(text).end()
+                    .find('.lifo-typeahead-item').text(text).end()
                     .appendTo(list)
                     ;
             }

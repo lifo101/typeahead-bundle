@@ -12,7 +12,7 @@
         }
     ],
     "require": {
-        "symfony/symfony": ">=2.1",
+        "symfony/symfony": ">=2.1"
     },
     "suggest":  {
         "twitter/bootstrap": "2.3.*",

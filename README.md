@@ -2,7 +2,11 @@
 
 ##Introduction##
 
-This is a [Symfony v2.1](http://symfony.com/) Bundle that provides a [Bootstrap](http://twitter.github.com/bootstrap/) [Typeahead](http://twitter.github.com/bootstrap/javascript.html#typeahead) autocomplete widget for use in forms. An enhanced version of the [Typeahead](http://twitter.github.com/bootstrap/javascript.html#typeahead) component is included that adds several new features and enhancements.
+This is a [Symfony v2.1](http://symfony.com/) Bundle that provides a 
+[Bootstrap](http://twitter.github.com/bootstrap/) 
+[Typeahead](http://twitter.github.com/bootstrap/javascript.html#typeahead) autocomplete widget for use in forms. 
+An enhanced version of the [Typeahead](http://twitter.github.com/bootstrap/javascript.html#typeahead) component 
+is included that adds several new features and enhancements.
 
 ###Enhanced Typeahead Features###
 
@@ -18,13 +22,16 @@ This example shows a form field that allows a single name to be entered.
 
 ![Typeahead (single) Example](https://raw.github.com/lifo101/symfony-typeahead-bundle/master/Resources/doc/img/typeahead-single.png)
 
-This example shows a form field that allows multiple names to be entered. Clicking on a name link removes the entity. The entity in the backend is actually an ArrayCollection and automatically allows adding/removing entities from the list.
+This example shows a form field that allows multiple names to be entered. Clicking on a name link removes the entity. 
+The entity in the backend is actually an ArrayCollection and automatically allows adding/removing entities from the list.
 
 ![Typeahead (multiple) Example](https://raw.github.com/lifo101/symfony-typeahead-bundle/master/Resources/doc/img/typeahead-multiple.png)
 
 ##How to install##
 
-**Note:** *This bundle requires jQuery and Bootstrap to be installed in your environment but does not include them directly.* I suggest using the [mopa/bootstrap-bundle](https://packagist.org/packages/mopa/bootstrap-bundle) which can help with this for you.
+**Note:** *This bundle requires jQuery and Bootstrap to be installed in your environment but does not include them 
+directly.* I suggest using the [mopa/bootstrap-bundle](https://packagist.org/packages/mopa/bootstrap-bundle) 
+which can help with this for you.
 
 * Add `lifo/symfony-typeahead-bundle` to your projects `composer.json` "requires" section:
 
@@ -48,6 +55,28 @@ twig:
             - 'LifoTypeaheadBundle:Form:fields.html.twig'
         
 ```
+
+* Update your site twig template to initialize the typeahead javascript. There are two options here.
+    * In your template add the following twig function call: 
+
+    ```
+    {{ lifo_typeahead_init() }}
+    ```
+
+    * Or, if you want to combine the javascript with your main site using assetic you can do something like this:
+    
+    ```
+    {% block javascripts %}
+        {% javascripts filter='?yui_js' output='js/site.js'
+            '@MyBundle/Resources/public/js/jquery-1.9.1.min.js'
+            '@MyBundle/Resources/public/js/bootstrap.min.js'
+            '@LifoTypeaheadBundle/Resources/public/js/typeaheadbundle.js'
+            '@MyBundle/Resources/public/js/site.js'
+        %}
+            <script src="{{ asset_url }}"></script>
+        {% endjavascripts %}
+    {% endblock %}
+    ```
 
 * **(Optional)** Add `LifoTypeaheadBundle` to your assetic config. *This is only required if you want to include the typeahead javascript as part of your main site JS using assetic.*
 

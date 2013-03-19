@@ -35,20 +35,29 @@ which can help with this for you.
 
 * Add `lifo/symfony-typeahead-bundle` to your projects `composer.json` "requires" section:
 
-```
-"lifo/symfony-typeahead-bundle": "dev-master"
+```javascript
+{
+    // ...
+    "require": {
+        // ...
+        "lifo/symfony-typeahead-bundle": "dev-master"
+    }
+}
 ```
 
-* Run `composer update` in your project root.
+* Run `composer update lifo/symfony-typeahead-bundle` in your project root.
 * Update your project `app/AppKernel.php` file and add this bundle to the $bundles array:
 
 ```php
-new Lifo\TypeaheadBundle\LifoTypeaheadBundle(),
+$bundles = array(
+    // ...
+    new Lifo\TypeaheadBundle\LifoTypeaheadBundle(),
+);
 ```
 
 * Update your project `app/config.yml` file to provide twig templates:
 
-```
+```yaml
 twig:
     form:
         resources:
@@ -78,17 +87,16 @@ twig:
     {% endblock %}
     ```
 
-* **(Optional)** Add `LifoTypeaheadBundle` to your assetic config. *This is only required if you want to include the typeahead javascript as part of your main site JS using assetic.*
+* **(Optional)** Add `LifoTypeaheadBundle` to your `app/config/config.yml`. *This is only required if you want to include the typeahead javascript as part of your main site JS using assetic.*
 
 ```yaml
 assetic:
     bundles: [ 'LifoTypeaheadBundle' ]
 ```
 
-
 ##How to use##
 
-Using the typeahead control is extremely simple. 3 required fields are outlined below:
+Using the typeahead control is extremely simple. The available options are outlined below:
 
 ```php
 $builder->add('user', 'entity_typeahead', array(
@@ -117,7 +125,7 @@ The controller should return a `JSON` array in the following format. Note: `id` 
 ```javascript
 [
   { id: 1, value: 'Displayed Text 1' },
-  { id: 2, value: 'Displayed Text 2' },
+  { id: 2, value: 'Displayed Text 2' }
 ]
 ```
 

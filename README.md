@@ -20,12 +20,12 @@ is included that adds several new features and enhancements.
 
 This example shows a form field that allows a single name to be entered.
 
-![Typeahead (single) Example](https://raw.github.com/lifo101/symfony-typeahead-bundle/master/Resources/doc/img/typeahead-single.png)
+![Typeahead (single) Example](Resources/doc/img/typeahead-single.png)
 
 This example shows a form field that allows multiple names to be entered. Clicking on a name link removes the entity. 
 The entity in the backend is actually an ArrayCollection and automatically allows adding/removing entities from the list.
 
-![Typeahead (multiple) Example](https://raw.github.com/lifo101/symfony-typeahead-bundle/master/Resources/doc/img/typeahead-multiple.png)
+![Typeahead (multiple) Example](Resources/doc/img/typeahead-multiple.png)
 
 ##How to install##
 
@@ -45,7 +45,7 @@ which can help with this for you.
 }
 ```
 
-* Run `composer update lifo/symfony-typeahead-bundle` in your project root.
+* Run `php composer.phar update lifo/symfony-typeahead-bundle` in your project root.
 * Update your project `app/AppKernel.php` file and add this bundle to the $bundles array:
 
 ```php
@@ -55,7 +55,7 @@ $bundles = array(
 );
 ```
 
-* Update your project `app/config.yml` file to provide twig templates:
+* Update your project `app/config.yml` file to provide global twig form templates:
 
 ```yaml
 twig:
@@ -66,7 +66,7 @@ twig:
 ```
 
 * Update your site twig template to initialize the typeahead javascript. There are two options here.
-    * In your template add the following twig function call: 
+    * In your template add the following twig function call anywhere:
 
     ```
     {{ lifo_typeahead_init() }}
@@ -87,12 +87,12 @@ twig:
     {% endblock %}
     ```
 
-* **(Optional)** Add `LifoTypeaheadBundle` to your `app/config/config.yml`. *This is only required if you want to include the typeahead javascript as part of your main site JS using assetic.*
+    * **(Optional)** Add `LifoTypeaheadBundle` to your `app/config/config.yml`. *This is only required if you want to include the typeahead javascript as part of your main site JS using assetic.*
 
-```yaml
-assetic:
-    bundles: [ 'LifoTypeaheadBundle' ]
-```
+    ```yaml
+    assetic:
+        bundles: [ 'LifoTypeaheadBundle' ]
+    ```
 
 ##How to use##
 

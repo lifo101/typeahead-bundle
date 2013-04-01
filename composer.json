@@ -1,5 +1,5 @@
 {
-    "name": "lifo/symfony-typeahead-bundle",
+    "name": "lifo/typeahead-bundle",
     "type": "symfony-bundle",
     "description": "A Symfony2 bundle that provides a Bootstrap Typeahead form type.",
     "keywords": ["symfony","typeahead","autocomplete"],
@@ -24,7 +24,6 @@
     "target-dir": "Lifo/TypeaheadBundle",
     "extra": {
         "branch-alias": {
-            "dev-master": "1.0-dev"
         }
     }
 }

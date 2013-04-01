@@ -3,7 +3,6 @@
     "type": "symfony-bundle",
     "description": "A Symfony2 bundle that provides a Bootstrap Typeahead form type.",
     "keywords": ["symfony","typeahead","autocomplete"],
-    "homepage": "https://github.com/lifo101/symfony-typeahead-bundle",
     "license": "MIT",
     "authors": [
         {

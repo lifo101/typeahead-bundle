@@ -120,6 +120,7 @@ $builder->add('user', 'entity_typeahead', array(
     * `loadingIconUrl` Image icon to display during AJAX request.
     *  `multiple` If true the widget will allow multiple entities to be selected. One at a time. This special mode creates an unordered list below the typeahead widget to display the selected entities.
 
+###AJAX Response###
 The controller should return a `JSON` array in the following format. Note: `id` and `value` properties are required and you may include any other properties that can potentially be used within the template.
 
 ```javascript

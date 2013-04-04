@@ -23,6 +23,7 @@
     {# create hidden input to store the currently selected entity ID #}
     {% set attr = main_attr %}
     {% if multiple %}
+        {% set child = null %} {# must be set for the block() below #}
         {% set attr = attr|merge({'data-prototype': block('entity_typeahead_list_widget') }) %}
         {% set id, full_name, value = main_id, '', '' %}
     {% else %}

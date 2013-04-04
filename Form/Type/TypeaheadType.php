@@ -58,13 +58,12 @@ class TypeaheadType extends AbstractType
         //$cfg = $form->getConfig();
 
         // assign some variables to the view template
-        $vars = array('render', 'route', 'route_params', 'minLength', 'items',
-                      'delay', 'loadingIconUrl', 'multiple', 'allow_add',
-                      'allow_remove', 'empty_value', 'resetOnSelect');
+        $vars = array('render', 'route', 'route_params', 'property',
+                      'minLength', 'items', 'delay', 'loadingIconUrl',
+                      'multiple', 'allow_add', 'allow_remove', 'empty_value',
+                      'resetOnSelect');
         foreach ($vars as $var) {
-            if ($options[$var] !== null) {
-                $view->vars[$var] = $options[$var];
-            }
+            $view->vars[$var] = $options[$var];
         }
 
         // convert the route into an URL

@@ -119,6 +119,7 @@ $builder->add('user', 'entity_typeahead', array(
     * `delay` Delay in milliseconds before firing AJAX *(default: 250)*
     * `loadingIconUrl` Image icon to display during AJAX request.
     *  `multiple` If true the widget will allow multiple entities to be selected. One at a time. This special mode creates an unordered list below the typeahead widget to display the selected entities.
+    * `callback` Callback function (or string) that is called when an item is selected. Prototype: `function(text, data)` where `text` is the label of the selected item and `data` is the JSON object returned by the server.
 
 ###AJAX Response###
 The controller should return a `JSON` array in the following format. Note: `id` and `value` properties are required and you may include any other properties that can potentially be used within the template.

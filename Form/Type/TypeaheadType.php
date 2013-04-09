@@ -61,7 +61,7 @@ class TypeaheadType extends AbstractType
         $vars = array('render', 'route', 'route_params', 'property',
                       'minLength', 'items', 'delay', 'loadingIconUrl',
                       'multiple', 'allow_add', 'allow_remove', 'empty_value',
-                      'resetOnSelect');
+                      'resetOnSelect', 'callback');
         foreach ($vars as $var) {
             $view->vars[$var] = $options[$var];
         }
@@ -101,6 +101,7 @@ class TypeaheadType extends AbstractType
             'items'             => 10,
             'loadingIconUrl'    => null,
             'resetOnSelect'     => function(Options $options) { return $options['multiple']; },
+            'callback'          => null,
 
             'compound'          => false, //function(Options $options){ return $options['multiple']; },
         ));

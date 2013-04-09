@@ -2,7 +2,7 @@
  * typeaheadbundle.js
  * Part of the Lifo/TypeaheadBundle bundle for Symfony 2.1+
  * @author Jason Morriss <lifo2013@gmail.com>
- * @link https://github.com/lifo101/symfony-typeahead-bundle
+ * @link https://github.com/lifo101/typeahead-bundle
  */
 
 /*
@@ -250,19 +250,23 @@
         var change = function(text, data){
             var _id = this.$id.attr('id');
             var list = $('#' + _id + '_list');
-            if (!list.length) return;
+            if (list.length) {
+                var li = list.find('#' + _id + '_' + data.id);
+                if (!li.length) {
+                    // convert 'name_subname_extraname' to 'name[subname][extraname][]'
+                    var name = _id.split(/_/);
+                    name = (name.length > 1 ? name.shift() + '[' + name.join('][') + ']' : name.join()) + '[]';
+                    li = $( this.$id.data('prototype') );
+                    li.data('value', data.id)
+                        .find('input:hidden').val(data.id).attr('id', _id + '_' + data.id).attr('name', name).end()
+                        .find('.lifo-typeahead-item').text(text).end()
+                        .appendTo(list)
+                        ;
+                }
+            }
 
-            var li = list.find('#' + _id + '_' + data.id);
-            if (!li.length) {
-                // convert 'name_subname_extraname' to 'name[subname][extraname][]'
-                var name = _id.split(/_/);
-                name = (name.length > 1 ? name.shift() + '[' + name.join('][') + ']' : name.join()) + '[]';
-                li = $( this.$id.data('prototype') );
-                li.data('value', data.id)
-                    .find('input:hidden').val(data.id).attr('id', _id + '_' + data.id).attr('name', name).end()
-                    .find('.lifo-typeahead-item').text(text).end()
-                    .appendTo(list)
-                    ;
+            if ($.isFunction(this.options.callback)) {
+                this.options.callback.apply(this, [text, data]);
             }
         };
 
@@ -280,6 +284,14 @@
             if (undefined !== d.minlength && d.minlength != '') opts.minLength = d.minlength;
             if (undefined !== d.loadingiconurl && d.loadingiconurl != '') opts.loadingIconUrl = d.loadingiconurl;
             if (undefined !== d.resetonselect && d.resetonselect != '') opts.resetOnSelect = d.resetonselect ? true : false;
+            if (undefined !== d.callback && d.callback != '') opts.callback = d.callback;
+
+            // allow the defined callback to be a function string
+            if (typeof opts.callback == 'string'
+                && opts.callback in window
+                && $.isFunction(window[opts.callback])) {
+                opts.callback = window[opts.callback];
+            }
 
             me.typeahead(opts);
             $('#' + me.data('typeahead').$id.attr('id') + '_list').on({

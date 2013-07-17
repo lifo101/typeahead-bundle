@@ -33,19 +33,19 @@ The entity in the backend is actually an ArrayCollection and automatically allow
 directly.* I suggest using the [mopa/bootstrap-bundle](https://packagist.org/packages/mopa/bootstrap-bundle) 
 which can help with this for you.
 
-* Add `lifo/symfony-typeahead-bundle` to your projects `composer.json` "requires" section:
+* Add `lifo/typeahead-bundle` to your projects `composer.json` "requires" section:
 
 ```javascript
 {
     // ...
     "require": {
         // ...
-        "lifo/symfony-typeahead-bundle": "dev-master"
+        "lifo/typeahead-bundle": "dev-master"
     }
 }
 ```
 
-* Run `php composer.phar update lifo/symfony-typeahead-bundle` in your project root.
+* Run `php composer.phar update lifo/typeahead-bundle` in your project root.
 * Update your project `app/AppKernel.php` file and add this bundle to the $bundles array:
 
 ```php

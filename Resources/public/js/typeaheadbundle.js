@@ -270,9 +270,11 @@
             }
         };
 
-        $('input[data-provide="lifo-typeahead"]').each(function(){
-            var me = $(this),
-                d = me.data(),
+        $(document).on('focus.lifo-typeahead.data-api', 'input[data-provide="lifo-typeahead"]', function(e){
+            var me = $(this);
+            if (me.data('typeahead')) return;
+
+            var d = me.data(),
                 opts = {
                     id: me.attr('id').replace(/_text$/, ''),
                     url: d.url,

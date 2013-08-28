@@ -2,7 +2,7 @@
 
 ##Introduction##
 
-This is a [Symfony v2.1](http://symfony.com/) Bundle that provides a 
+This is a [Symfony v2.2](http://symfony.com/) Bundle that provides a 
 [Bootstrap](http://twitter.github.com/bootstrap/) 
 [Typeahead](http://twitter.github.com/bootstrap/javascript.html#typeahead) autocomplete widget for use in forms. 
 An enhanced version of the [Typeahead](http://twitter.github.com/bootstrap/javascript.html#typeahead) component 

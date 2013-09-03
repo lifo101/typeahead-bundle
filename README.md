@@ -6,7 +6,13 @@ This is a [Symfony v2.2](http://symfony.com/) Bundle that provides a
 [Bootstrap](http://twitter.github.com/bootstrap/) 
 [Typeahead](http://twitter.github.com/bootstrap/javascript.html#typeahead) autocomplete widget for use in forms. 
 An enhanced version of the [Typeahead](http://twitter.github.com/bootstrap/javascript.html#typeahead) component 
-is included that adds several new features and enhancements.
+is included that adds several new features and enhancements. 
+
+**This bundle only works with Bootstrap v2.3.x.** 
+Bootstrap v3 deprecated the Typeahead component and instead recommends using the entirely new 
+[Twitter/Typeahead](https://github.com/twitter/typeahead.js/) script. 
+The [Integration Guide](https://github.com/twitter/typeahead.js/#bootstrap-integration) explains how to incorporate 
+it into your website but I do not have a bundle, yet, that will support it.
 
 ###Enhanced Typeahead Features###
 

@@ -13,7 +13,7 @@ use Symfony\Component\Form\FormView;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\Exception\UnexpectedTypeException;
-use Symfony\Component\Form\Exception\TypeDefinitionException;
+use Symfony\Component\Form\Exception\RuntimeException;
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Doctrine\ORM\EntityManager;
@@ -75,7 +75,7 @@ class TypeaheadType extends AbstractType
                 }
                 $view->vars['url'] = $this->router->generate($options['route'], $params);
             } catch (\InvalidArgumentException $e) {
-                throw new TypeDefinitionException("Route \"{$options['route']}\" configured on " . get_class() . " does not exist.");
+                throw new RuntimeException("Route \"{$options['route']}\" configured on " . get_class() . " does not exist.");
             }
         }
     }

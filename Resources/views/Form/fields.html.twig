@@ -1,5 +1,9 @@
 {% block entity_typeahead_widget %}
 {% spaceless %}
+    {% if multiple %}
+        <div class="lifo-typeahead-wrapper">
+    {% endif %}
+
     {% set required, main_full_name, main_id, main_value, main_attr = false, full_name, id, value, attr %}
 
     {# create visible autocomplete input #}
@@ -36,14 +40,15 @@
     {% if multiple %}
         {% set id, full_name = main_id, main_full_name %}
         {{ block('entity_typeahead_multiple_widget') }}
+        </div>{# end of .lifo-typeahead-wrapper #}
     {% endif %}
 {% endspaceless %}
 {% endblock %}
 
 {% block entity_typeahead_multiple_widget %}
 {% spaceless %}
-    <div class="lifo-typeahead-wrapper">
-        <ul class="lifo-typeahead-list" id="{{ id }}_list">
+    <div class="lifo-typeahead-list">
+        <ul id="{{ id }}_list">
         {% for child in form.vars.data if child is not null %}
             {{ block('entity_typeahead_list_widget') }}
         {% endfor %}

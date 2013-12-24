@@ -42,12 +42,14 @@ class TypeaheadType extends AbstractType
         if ($options['multiple']) {
             $builder->addViewTransformer(new EntitiesToPropertyTransformer(
                 $options['em'] ?: $this->em,
-                $options['class']
+                $options['class'],
+                $options['property']
             ), true);
         } else {
             $builder->addViewTransformer(new EntityToPropertyTransformer(
                 $options['em'] ?: $this->em,
-                $options['class']
+                $options['class'],
+                $options['property']
             ), true);
         }
     }

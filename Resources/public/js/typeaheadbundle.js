@@ -1,6 +1,6 @@
 /*!
  * typeaheadbundle.js
- * Part of the Lifo/TypeaheadBundle bundle for Symfony 2.1+
+ * Part of the Lifo/TypeaheadBundle bundle for Symfony 2.2+
  * @author Jason Morriss <lifo2013@gmail.com>
  * @link https://github.com/lifo101/typeahead-bundle
  */
@@ -311,4 +311,3 @@
         $(document).on('focus.lifo-typeahead.data-api', 'input[data-provide="lifo-typeahead"]', typeahead);
     });
 }(jQuery);
-

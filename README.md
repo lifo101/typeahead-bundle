@@ -1,20 +1,23 @@
-#README#
+## Introduction
 
-##Introduction##
+This is a [Symfony v2.2+](http://symfony.com/) Bundle that provides a 
+[Bootstrap](http://twitter.github.com/bootstrap/) **(v2.x or v3.x)**
+[Typeahead](http://twitter.github.com/bootstrap/javascript.html#typeahead) widget for use in forms. 
+The Typeahead component used in this bundle is the original Bootstrap v2.3 Typeahead library with a few enhancements.
 
-This is a [Symfony v2.2](http://symfony.com/) Bundle that provides a 
-[Bootstrap](http://twitter.github.com/bootstrap/) 
-[Typeahead](http://twitter.github.com/bootstrap/javascript.html#typeahead) autocomplete widget for use in forms. 
-An enhanced version of the [Typeahead](http://twitter.github.com/bootstrap/javascript.html#typeahead) component 
-is included that adds several new features and enhancements. 
+**Update: If you were pointing to `dev-master` in your composer.json and this bundle stopped working change your version to
+"^1.x" and run `composer update lifo/typeahead` to update your project.**
+ 
+* If you are using **Bootstrap v2.x** then you must use version **[1.x](https://github.com/lifo101/typeahead-bundle/tree/1.1)**
+of this bundle.
+* If you are using **Bootstrap v3.x** then you must use version **[2.x](https://github.com/lifo101/typeahead-bundle/tree/2.0)**
+of this bundle.
 
-**This bundle only works with Bootstrap v2.3.x.** 
-Bootstrap v3 deprecated the Typeahead component and instead recommends using the entirely new 
-[Twitter/Typeahead](https://github.com/twitter/typeahead.js/) script. 
-The [Integration Guide](https://github.com/twitter/typeahead.js/#bootstrap-integration) explains how to incorporate 
-it into your website but I do not have a bundle, yet, that will support it.
+*Note: This bundle does not use the newer [Twitter/Typeahead.js](https://twitter.github.io/typeahead.js/) javascript library.*
 
-###Enhanced Typeahead Features###
+### Enhanced Typeahead Features
+
+This bundle adds a few enhancements to the original bootstrap typeahead javascript library: 
 
 * Supports JSON objects
 * Caches results
@@ -22,7 +25,7 @@ it into your website but I do not have a bundle, yet, that will support it.
 * Properly handles pasting via mouse
 * Includes an `AJAX Loader` icon
 
-###Screenshots###
+### Screenshots
 
 This example shows a form field that allows a single name to be entered.
 
@@ -33,74 +36,68 @@ The entity in the backend is actually an ArrayCollection and automatically allow
 
 ![Typeahead (multiple) Example](Resources/doc/img/typeahead-multiple.png)
 
-##How to install##
+## How to install
 
 **Note:** *This bundle requires jQuery and Bootstrap to be installed in your environment but does not include them 
-directly.* I suggest using the [mopa/bootstrap-bundle](https://packagist.org/packages/mopa/bootstrap-bundle) 
-which can help with this for you.
+directly.* I suggest using the [braincrafted/bootstrap-bundle](https://github.com/braincrafted/bootstrap-bundle) 
+which can help with this for you. 
 
-* Add `lifo/typeahead-bundle` to your projects `composer.json` "requires" section:
+* Add `lifo/typeahead-bundle` to the "requires" section of your project's `composer.json` file, which can be done 
+automatically by running the composer command from within your project directory:
 
-```javascript
-{
-    // ...
-    "require": {
+    ```
+    composer require lifo/typeahead-bundle
+    ```
+    
+    or manually by editing the composer.json file: 
+    
+    ```javascript
+    {
         // ...
-        "lifo/typeahead-bundle": "dev-master"
+        "require": {
+            // ...
+            "lifo/typeahead-bundle": "^2.0"
+        }
     }
-}
-```
+    ```
 
-* Run `php composer.phar update lifo/typeahead-bundle` in your project root.
+* Run `composer update lifo/typeahead-bundle` in your project root.
 * Update your project `app/AppKernel.php` file and add this bundle to the $bundles array:
 
-```php
-$bundles = array(
-    // ...
-    new Lifo\TypeaheadBundle\LifoTypeaheadBundle(),
-);
-```
+  ```php
+  $bundles = array(
+      // ...
+      new Lifo\TypeaheadBundle\LifoTypeaheadBundle(),
+  );
+  ```
 
-* Update your project `app/config.yml` file to provide global twig form templates:
+* Add `@lifo_typeahead_js` to your Assetic `javascripts` block. Similar to the block below. 
+Your actual setup may differ. Be sure to include it AFTER your jquery and bootstrap libraries.
 
-```yaml
-twig:
-    form:
-        resources:
-            - 'LifoTypeaheadBundle:Form:fields.html.twig'
-        
-```
+  ```twig
+      {% javascripts filter='?yui_js' output='js/site.js'
+          // ...
+          '@lifo_typeahead_js'
+          // ...
+      %}
+          <script src="{{ asset_url }}"></script>
+      {% endjavascripts %}
+  ```
 
-* Update your site twig template to initialize the typeahead javascript. There are two options here.
-    * In your template add the following twig function call anywhere:
+* Add `@lifo_typeahead_css` to your Assetic `stylesheets` block. Similar to the block below. 
+Your actual setup may differ. 
 
-    ```
-    {{ lifo_typeahead_init() }}
-    ```
+  ```twig
+      {% stylesheets filter='less,cssrewrite,?yui_css' output='css/site.css'
+          // ...
+          '@lifo_typeahead_css'
+          // ...
+      -%}
+      <link href="{{ asset_url }}" type="text/css" rel="stylesheet" />
+      {% endstylesheets %}
+  ```
 
-    * Or, if you want to combine the javascript with your main site using assetic you can do something like this:
-    
-    ```
-    {% block javascripts %}
-        {% javascripts filter='?yui_js' output='js/site.js'
-            '@MyBundle/Resources/public/js/jquery-1.9.1.min.js'
-            '@MyBundle/Resources/public/js/bootstrap.min.js'
-            '@LifoTypeaheadBundle/Resources/public/js/typeaheadbundle.js'
-            '@MyBundle/Resources/public/js/site.js'
-        %}
-            <script src="{{ asset_url }}"></script>
-        {% endjavascripts %}
-    {% endblock %}
-    ```
-
-    * **(Optional)** Add `LifoTypeaheadBundle` to your `app/config/config.yml`. *This is only required if you want to include the typeahead javascript as part of your main site JS using assetic.*
-
-    ```yaml
-    assetic:
-        bundles: [ 'LifoTypeaheadBundle' ]
-    ```
-
-##How to use##
+## How to use
 
 Using the typeahead control is extremely simple. The available options are outlined below:
 
@@ -115,7 +112,8 @@ $builder->add('user', 'entity_typeahead', array(
 * **Required Options**
     * `class` is your entity class.
     * `render` is the property of your entity to display in the autocomplete menu.
-    * `route` is the name of the route to fetch entities from. The controller matching the route will receive the following parameters via `POST`:
+    * `route` is the name of the route to fetch entities from. The controller matching the route will receive the 
+    following parameters via `POST`:
         * `query` The query string to filter results by.
         * `limit` The maximum number of results to return.
 * **Optional Options**
@@ -123,12 +121,15 @@ $builder->add('user', 'entity_typeahead', array(
     * `minLength` Minimum characters needed before firing AJAX request.
     * `items` Maximum items to display at once *(default: 8)*
     * `delay` Delay in milliseconds before firing AJAX *(default: 250)*
-    * `loadingIconUrl` Image icon to display during AJAX request.
-    *  `multiple` If true the widget will allow multiple entities to be selected. One at a time. This special mode creates an unordered list below the typeahead widget to display the selected entities.
-    * `callback` Callback function (or string) that is called when an item is selected. Prototype: `function(text, data)` where `text` is the label of the selected item and `data` is the JSON object returned by the server.
+    * `spinner` Class string to use for loading spinner *(default: "glyphicon glyphicon-refresh spin")*
+    *  `multiple` If true the widget will allow multiple entities to be selected. One at a time. This special mode creates 
+    an unordered list below the typeahead widget to display the selected entities.
+    * `callback` Callback function (or string) that is called when an item is selected. Prototype: `function(text, data)` 
+    where `text` is the label of the selected item and `data` is the JSON object returned by the server.
 
-###AJAX Response###
-The controller should return a `JSON` array in the following format. Note: `id` and `value` properties are required and you may include any other properties that can potentially be used within the template.
+### AJAX Response
+The controller should return a `JSON` array in the following format. Note: `id` and `value` properties are required and 
+you may include any other properties that can potentially be used within the template.
 
 ```javascript
 [
@@ -137,9 +138,9 @@ The controller should return a `JSON` array in the following format. Note: `id` 
 ]
 ```
 
-###Template###
+### Template
 
-Your form template might look something like this *(The screenshots above used this template bit)*.
+Your form template might look something like this _(The screenshots above used this template bit)_.
 **Note:** The `widget_addon` attribute is a `mopa/bootstrap-bundle` attribute.
 
 ```twig
@@ -148,6 +149,9 @@ Your form template might look something like this *(The screenshots above used t
 {{ form_row(form.users, { attr: { placeholder: 'Add another user ...'}, widget_addon: {type: 'append', 'icon': 'user'}}) }}
 ```
 
-##Notes##
+## Notes
 
-This bundle renders its form elements in standard Symfony style. You will have to override the form blocks to get the proper Bootstrap styles applied. I strongly suggest something like [mopa/bootstrap-bundle](https://packagist.org/packages/mopa/bootstrap-bundle) that will override the symfony form templates with proper Bootstrap versions automatically for you.
+This bundle renders its form elements in standard Symfony style. You will have to override the form blocks to get the 
+proper Bootstrap styles applied. I strongly suggest something like 
+[braincrafted/bootstrap-bundle](https://github.com/braincrafted/bootstrap-bundle) that will override the symfony form 
+templates with proper Bootstrap versions automatically for you.

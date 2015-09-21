@@ -1,9 +1,5 @@
 {% block entity_typeahead_widget %}
 {% spaceless %}
-    {% if multiple %}
-        <div class="lifo-typeahead-wrapper">
-    {% endif %}
-
     {% set required, main_full_name, main_id, main_value, main_attr = false, full_name, id, value, attr %}
 
     {# create visible autocomplete input #}
@@ -13,10 +9,11 @@
     {% set attr = attr|merge({
         'autocomplete': 'off',
         'data-provide': 'lifo-typeahead',
+        'data-multiple': multiple,
         'data-items': items|default(8),
         'data-minlength': minLength|default(2),
-        'data-loadingiconurl': loadingIconUrl,
         'data-resetonselect': resetOnSelect,
+        'data-spinner': spinner,
         'data-callback': callback,
         'data-delay': delay,
         'data-route': route,
@@ -40,20 +37,17 @@
     {% if multiple %}
         {% set id, full_name = main_id, main_full_name %}
         {{ block('entity_typeahead_multiple_widget') }}
-        </div>{# end of .lifo-typeahead-wrapper #}
     {% endif %}
 {% endspaceless %}
 {% endblock %}
 
 {% block entity_typeahead_multiple_widget %}
 {% spaceless %}
-    <div class="lifo-typeahead-list">
-        <ul id="{{ id }}_list">
-        {% for child in form.vars.data if child is not null %}
-            {{ block('entity_typeahead_list_widget') }}
-        {% endfor %}
-        </ul>
-    </div>
+    <ul id="{{ id }}_list" class="lifo-typeahead-list" {% if attr.input_group is not empty %}style="display:none"{% endif %}>
+    {% for child in form.vars.data if child is not null %}
+        {{ block('entity_typeahead_list_widget') }}
+    {% endfor %}
+    </ul>
 {% endspaceless %}
 {% endblock %}
 
@@ -61,7 +55,7 @@
 {% spaceless %}
     <li{% if child is not null %} data-value="{{ child.id }}"{% endif %}>
         <input{% if child is not null %} id="{{ id ~ '_' ~ child.id }}" name="{{ full_name }}[]" value="{{ attribute(child, property ? property : 'id') }}"{% endif %} type="hidden" />
-        <a href="" class="lifo-typeahead-item">{{ child is not null ? attribute(child, render) : '' }}</a>
+        <a href="" class="lifo-typeahead-item" title="{{ "Click to remove"|trans }}">{{ child is not null ? attribute(child, render) : '' }}</a>
     </li>
 {% endspaceless %}
 {% endblock %}

@@ -26,55 +26,23 @@
     defs.resetOnSelect = false;     // reset the input when an item is selected?
     defs.change = null;             // onChange callback when $element is changed
 
-    // default loading icon url. Using a "data" url here may waste a little
-    // space but this will be easier to get it working out-of-the-box without
-    // having the user worry about URL paths and an external image.
-    defs.loadingIconUrl =
-        'data:image/gif;base64,' +
-        'R0lGODlhDgAOAIQAACQmJJyanMzOzPTy9GRiZNze3Ly+vDw6PNTW1Pz6/Hx+fOTm5MTGxDQyNKSm' +
-        'pNTS1PT29OTi5MTCxDw+PNza3Pz+/JSSlP///wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACH/C05F' +
-        'VFNDQVBFMi4wAwEAAAAh+QQJCwAXACwAAAAADgAOAAAFb+AlVssTWYQDiSzESEahAMD0sMPwGNIS' +
-        'NIADZVVhMAaLimhgoTwYlQivwGIteJGdJFEdwUyUSJcVoRTO4vFlYdZyuwne42pIV+mLhECCVF4S' +
-        'BRAIUBc5OwwLERISRysiLosUFAYGR11RAgsFc34XIQAh+QQJCwAYACwAAAAADgAOAIQkJiSUlpTU' +
-        '0tTs7uy8vrxkYmTc3tz8+vykoqQ8Pjzc2tz09vTExsSEhoTk5uSsqqw0MjTU1tT08vTEwsRsbmzk' +
-        '4uT8/vykpqT///8AAAAAAAAAAAAAAAAAAAAAAAAAAAAFbCAmWo5QGYJjiezCTIShEBMjsZIk0E4F' +
-        '2wqMhWFTiQ4GCSWxqNAMLNYDALjsJoeoaAEBFCqKipaFaAQMBvEYA0bRstoDLUUgqKOOuuNAlBgx' +
-        'SAsRDFk5ERMTPYg2Cy0MNAqHBDZaFhUmKH8YIQAh+QQJCwAYACwAAAAADgAOAIQkJiSUlpTU0tTs' +
-        '7uy8vrxkYmTc3tz8+vykoqQ8Pjzc2tz09vTExsSEhoTk5uSsqqw0MjTU1tT08vTEwsRsbmzk4uT8' +
-        '/vykpqT///8AAAAAAAAAAAAAAAAAAAAAAAAAAAAFbCAmWo5QGYJjiezCTIShEBMjsZIk0E4F2wuM' +
-        'hWFTiQ4GSYRxqNAMLJZjMqnsJofoEWZSVLSsisJA/oIxiEbgmtUuIICCg0AwRy8AAOJAlBgxSBIU' +
-        'CUE5EVQ9VAwDCi0MNAqHBDZaFlYnKSsiIQAh+QQJCwAXACwAAAAADgAOAIQkJiScmpzMzsz08vRk' +
-        'YmTc3ty8vrzU1tT8+vx8fnw8Pjzk5uTExsSMjow0MjSkpqTU0tT09vTk4uTEwsTc2tz8/vyUkpT/' +
-        '//8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFb+AlVgskFdBSiWzETEZBGRMzsMMA0YsE25FLhWFT' +
-        'iRCFwYGBkNAKLNZiMpHsJojoEWaiSLQsCaVA/oIvi/E1q0XQUgaDObqILxCCycB4GVgKSys5OwwL' +
-        'AQ4AChQ3Ii5UFAkAiQJaFRICCw0ED2wXIQAh+QQJCwAXACwAAAAADgAOAIQkJiScnpzU0tTs7uxk' +
-        'YmS8vrzc3tz8+vw8PjykpqTc2tz09vSMjozExsTk5uQ0MjTU1tT08vRsbmzEwsTk4uT8/vysqqz/' +
-        '//8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFbOAlVo5AGYJTiezSTIWhFFMTsVEk0A4F24tLpWFT' +
-        'iQ6GCKRxoNAMLJZjMqHsJofoEWZSULQsisJA/oIvjvE1qz3QUoWCOeqIOw7EiCV4QS6WKzkSAA8J' +
-        'PjURfBcKCAAADDMFNloLCQQBKEYiIQAh+QQJCwAYACwAAAAADgAOAIQkJiSUlpTMzsz08vRkYmTc' +
-        '3ty8vrw8OjzU1tT8+vykoqSEhoTk5uTExsQ0MjTU0tT09vTk4uTEwsQ8Pjzc2tz8/vykpqSUkpT/' +
-        '//8AAAAAAAAAAAAAAAAAAAAAAAAAAAAFayAmVswTFQ9TiSzUSEZBGVIzsMPw0EwE2xBMpWFTiRKF' +
-        'AaKRiNAKLBZDIonsJInoEWaiRLSsCKUQWCjAolOBAHAEtQmD4WEBAC7gqYEBmRwoRhhISg0rAhRX' +
-        'PVRAOC8SMjQ2WhURAicpWSIhACH5BAkLABcALAAAAAAOAA4AhCQmJJSWlMzOzPTy9Nze3GRiZLy+' +
-        'vNTW1Pz6/Dw+PKSipOTm5ISGhMTGxDQyNNTS1PT29OTi5MTCxNza3Pz+/KSmpJSSlP///wAAAAAA' +
-        'AAAAAAAAAAAAAAAAAAAAAAAAAAVs4CVSyxMRz0KJLNRIBjEZUjOwwvTQSwTbkAskkZioRIjI4NBA' +
-        'VAAAC4u1gC0KAMdtekHAHgGGgsuKTAjmCFm0mER2EgTZazAZDGru4q5q2I5dBBBMKwMDDxISPYlA' +
-        'LQ00Ewc/WywUbycpKyIhACH5BAkLABcALAAAAAAOAA4AhCQmJJyenNTS1Ozu7GRiZLy+vNze3Pz6' +
-        '/Dw+PKSmpNza3PT29IyOjMTGxOTm5DQyNNTW1PTy9GxubMTCxOTi5Pz+/KyqrP///wAAAAAAAAAA' +
-        'AAAAAAAAAAAAAAAAAAAAAAVr4CUuCREYglOJrIIAAKMUUxOx0SABj0VNBdviUmnYLLfLwbAQNCq/' +
-        'AoXFcgAdAtqBKjoABQbDlCuiKMSKMdmRzk623EOhIKDM1dVr0abqGiIQTxcREQITEw4/NRFDIw00' +
-        'ChBANlxQdSh9IiEAOw==';
-
     defs.beforeSend = function(xhr, opts) {
-        var icon = this.$addon.find('[class*="icon-"]');
-        icon.css({ background: 'url(' + this.options.loadingIconUrl + ') top center no-repeat' });
-        //icon.addClass('icon-spinner icon-spin'); // font-awesome
+        if (!this.options.spinner || this.$addon.data('prev-icon-class') != undefined) return;
+        var icon = this.$addon.find('[class*="glyphicon-"]');
+        if (icon.length >= 1) {
+            this.$addon.data('prev-icon-class', icon.attr('class'));
+            icon.attr('class', this.options.spinner);
+        }
     };
 
     defs.afterSend = function(xhr, status) {
-        var icon = this.$addon.find('[class*="icon-"]');
-        icon.css({ background: '' });
-        //icon.removeClass('icon-spinner icon-spin'); // font-awesome
+        if (!this.options.spinner || this.$addon.data('prev-icon-class') == undefined) return;
+        var icon = this.$addon.find('[class*="glyphicon-"]');
+        if (icon.length >= 1) {
+            var cls = this.$addon.data('prev-icon-class');
+            this.$addon.removeData('prev-icon-class');
+            icon.attr('class', cls);
+        }
     };
 
     defs.source = function(query, process) {
@@ -143,7 +111,7 @@
         }
 
         return this.hide();
-    }
+    };
 
     base.updater = function(item) {
         // update value of related field
@@ -171,7 +139,7 @@
         }
 
         return this._updater(item);
-    }
+    };
 
     base.blur = function(e) {
         // only call updater if a menu item was not selected. This prevents a
@@ -181,7 +149,7 @@
             this.updater($.trim(this.$element.val()));
         }
         this._blur(e);
-    }
+    };
 
     base.lookup = function() {
         if (this.options.delay) {
@@ -190,7 +158,7 @@
         } else {
             this._lookup();
         }
-    }
+    };
 
     base.listen = function() {
         this._listen();
@@ -219,8 +187,8 @@
             .on('paste', $.proxy(this.on_paste, this));
 
         // any "addon" icons?
-        this.$addon = this.$element.siblings('.add-on');
-    }
+        this.$addon = this.$element.siblings('.input-group-addon');
+    };
 
     base.on_paste = function(e) {
         // since the pasted text has not actually been updated in the input
@@ -229,14 +197,14 @@
         // the current text in the input.
         clearTimeout(this.pasted);
         this.pasted = setTimeout($.proxy(function(){ this.lookup(); this.pasted = undefined; }, this), 100);
-    }
+    };
 
     // convienence method to auto-select the input text; might not actually
     // be wanted in all cases but for now I want it...
     //base.on_contextmenu = function(e) {
     //    this.$element.select();
     //}
-}(jQuery)
+}(jQuery);
 
 !function($) {
     $(function(){
@@ -283,8 +251,8 @@
                 };
             if (undefined !== d.delay && d.delay != '') opts.delay = d.delay;
             if (undefined !== d.items && d.items != '') opts.items = d.items;
+            if (undefined !== d.spinner) opts.spinner = d.spinner;
             if (undefined !== d.minlength && d.minlength != '') opts.minLength = d.minlength;
-            if (undefined !== d.loadingiconurl && d.loadingiconurl != '') opts.loadingIconUrl = d.loadingiconurl;
             if (undefined !== d.resetonselect && d.resetonselect != '') opts.resetOnSelect = d.resetonselect ? true : false;
             if (undefined !== d.callback && d.callback != '') opts.callback = d.callback;
 
@@ -296,7 +264,21 @@
             }
 
             me.typeahead(opts);
-            $('#' + me.data('typeahead').$id.attr('id') + '_list').on({
+
+            var list = $('#' + me.data('typeahead').$id.attr('id') + '_list');
+
+            // BS3+ hack. Must move the list outside of the input_group if there is appended icon/btn
+            // since braincrafted/bootstrap-bundle or mopa/bootstrap-bundle will wrap the input in an "input_group"
+            // we must move the list outside or it breaks the styling of the appended icon/btn.
+            // This was the only way I could fix this w/o overridding the templates of those other bundles (which would
+            // be a pain since each bundle defines their templates differently).
+            if (list.parent().is('.input-group')) {
+                list.parent().after(list);
+                list.show();
+            }
+
+            // on-click handler to remove items from <ul> list
+            list.on({
                 'click.lifo-typeahead': function(e){
                     // @todo make this 'prettier' ... fade out, etc...
                     $(this).closest('li').remove();
@@ -310,4 +292,4 @@
         // apply to any future elements
         $(document).on('focus.lifo-typeahead.data-api', 'input[data-provide="lifo-typeahead"]', typeahead);
     });
-}(jQuery);
+}(window.jQuery);

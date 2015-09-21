@@ -61,7 +61,7 @@ class TypeaheadType extends AbstractType
 
         // assign some variables to the view template
         $vars = array('render', 'route', 'route_params', 'property',
-                      'minLength', 'items', 'delay', 'loadingIconUrl',
+                      'minLength', 'items', 'delay', 'spinner',
                       'multiple', 'allow_add', 'allow_remove', 'empty_value',
                       'resetOnSelect', 'callback');
         foreach ($vars as $var) {
@@ -73,7 +73,7 @@ class TypeaheadType extends AbstractType
             try {
                 $params = $options['route_params'] ?: array();
                 if (!is_array($params) and !($params instanceof \Traversable)) {
-                    throw new UnexpectedTypeException($params, "array or \Traversable");
+                    throw new UnexpectedTypeException($params, "array or \\Traversable");
                 }
                 $view->vars['url'] = $this->router->generate($options['route'], $params);
             } catch (\InvalidArgumentException $e) {
@@ -82,6 +82,7 @@ class TypeaheadType extends AbstractType
         }
     }
 
+//    public function configureOptions(OptionsResolver $resolver) // sf2.6+
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
 
@@ -101,7 +102,7 @@ class TypeaheadType extends AbstractType
             'delay'             => 250,
             'minLength'         => 2,
             'items'             => 10,
-            'loadingIconUrl'    => null,
+            'spinner'           => 'glyphicon glyphicon-refresh spin',
             'resetOnSelect'     => function(Options $options) { return $options['multiple']; },
             'callback'          => null,
 

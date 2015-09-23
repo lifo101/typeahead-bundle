@@ -7,10 +7,10 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
 
 class Configuration implements ConfigurationInterface
 {
-    const DEFAULT_BSJS_FILE  = '%kernel.root_dir%/../src/Lifo/TypeaheadBundle/Resources/public/js/bootstrap-typeahead.js';
-    const DEFAULT_JS_FILE    = '%kernel.root_dir%/../src/Lifo/TypeaheadBundle/Resources/public/js/typeaheadbundle.js';
+    const DEFAULT_BSJS_FILE  = '%kernel.root_dir%/../vendor/lifo/typeahead-bundle/Lifo/TypeaheadBundle/Resources/public/js/bootstrap-typeahead.js';
+    const DEFAULT_JS_FILE    = '%kernel.root_dir%/../vendor/lifo/typeahead-bundle/Lifo/TypeaheadBundle/Resources/public/js/typeaheadbundle.js';
     const DEFAULT_JS_OUTPUT  = 'js/lifo_typeahead.js';
-    const DEFAULT_CSS_FILE   = '%kernel.root_dir%/../src/Lifo/TypeaheadBundle/Resources/public/css/typeaheadbundle.css';
+    const DEFAULT_CSS_FILE   = '%kernel.root_dir%/../vendor/lifo/typeahead-bundle/Lifo/TypeaheadBundle/Resources/public/css/typeaheadbundle.css';
     const DEFAULT_CSS_OUTPUT = 'css/lifo_typeahead.css';
 
     /**

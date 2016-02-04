@@ -17,7 +17,7 @@ class TypeaheadTwigExtension extends \Twig_Extension
     public function getFunctions()
     {
         return array(
-            'lifo_typeahead_init' => new \Twig_Function_Method($this, 'initTypeaheadFunction', array('needs_environment' => true, 'is_safe' => array('html'))),
+			new \Twig_SimpleFunction('lifo_typeahead_init', [$this, 'initTypeaheadFunction'], array('needs_environment' => true, 'is_safe' => array('html'))),
         );
     }
 

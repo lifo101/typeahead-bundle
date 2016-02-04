@@ -15,7 +15,7 @@ use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\Exception\UnexpectedTypeException;
 use Symfony\Component\Form\Exception\RuntimeException;
 use Symfony\Component\OptionsResolver\Options;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Doctrine\ORM\EntityManager;
 use Doctrine\Common\Collections\Collection;
 use Lifo\TypeaheadBundle\Form\DataTransformer\EntityToPropertyTransformer;
@@ -82,8 +82,7 @@ class TypeaheadType extends AbstractType
         }
     }
 
-//    public function configureOptions(OptionsResolver $resolver) // sf2.6+
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
 
         //$resolver->setOptional(array(''));
@@ -109,9 +108,10 @@ class TypeaheadType extends AbstractType
             'compound'          => false, //function(Options $options){ return $options['multiple']; },
         ));
     }
-
-    public function getName()
-    {
-        return 'entity_typeahead';
-    }
+	
+	public function getBlockPrefix()
+	{
+		return 'entity_typeahead';
+	}
+	
 }

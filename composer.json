@@ -11,7 +11,7 @@
         }
     ],
     "require": {
-        "symfony/symfony": "^2.2"
+        "symfony/symfony": "^2.2||^3.0"
     },
     "suggest":  {
         "twbs/bootstrap": "Bootstrap framework",

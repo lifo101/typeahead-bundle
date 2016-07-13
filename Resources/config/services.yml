@@ -5,13 +5,13 @@ parameters:
 services:
     # provide twig functions
     lifo_typeahead.twig_extension:
-        class: %lifo_typeahead.twig_extension.class%
+        class: "%lifo_typeahead.twig_extension.class%"
         tags: [{ name: twig.extension }]
         
     # main typeahead autocomplete form field
     lifo_typeahead.typeahead_type:
-        class: %lifo_typeahead.typeahead_type.class%
-        arguments: [@service_container, @doctrine.orm.entity_manager, @router]
+        class: "%lifo_typeahead.typeahead_type.class%"
+        arguments: ["@service_container", "@doctrine.orm.entity_manager", "@router"]
         tags: [{ name: form.type, alias: entity_typeahead }]
 
     # experimental extension ...

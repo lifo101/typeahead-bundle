@@ -1,7 +1,7 @@
 {
     "name": "lifo/typeahead-bundle",
     "type": "symfony-bundle",
-    "description": "A Symfony2 bundle that provides a Typeahead form type compatible with Bootstrap v2.x and v3.x",
+    "description": "A Symfony bundle that provides an autocomplete Typeahead form type compatible with Bootstrap v2|v3",
     "keywords": ["symfony","typeahead","autocomplete","bootstrap"],
     "license": "MIT",
     "authors": [
@@ -11,11 +11,11 @@
         }
     ],
     "require": {
-        "symfony/symfony": "^2.2"
+        "symfony/symfony": "^2.6 || ^3.0"
     },
     "suggest":  {
         "twbs/bootstrap": "Bootstrap framework",
-        "braincrafted/bootstrap-bundle": "Bundle to automatically enable Bootstrap styles for Symfony"
+        "mopa/bootstrap-bundle": "Bundle to automatically enable Bootstrap styles for Symfony"
     },
     "autoload": {
         "psr-0": { "Lifo\\TypeaheadBundle": "" }

@@ -2,24 +2,20 @@
 
 namespace Lifo\TypeaheadBundle\Form\Type;
 
+use Doctrine\ORM\EntityManager;
+use Lifo\TypeaheadBundle\Form\DataTransformer\EntitiesToPropertyTransformer;
+use Lifo\TypeaheadBundle\Form\DataTransformer\EntityToPropertyTransformer;
 use Symfony\Bundle\FrameworkBundle\Routing\Router;
-use Symfony\Bridge\Doctrine\Form\EventListener\MergeDoctrineCollectionListener;
-use Symfony\Bridge\Doctrine\Form\DataTransformer\CollectionToArrayTransformer;
 use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Exception\RuntimeException;
+use Symfony\Component\Form\Exception\UnexpectedTypeException;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
-use Symfony\Component\Form\FormEvent;
-use Symfony\Component\Form\FormEvents;
-use Symfony\Component\Form\Exception\UnexpectedTypeException;
-use Symfony\Component\Form\Exception\RuntimeException;
 use Symfony\Component\OptionsResolver\Options;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
-use Doctrine\ORM\EntityManager;
-use Doctrine\Common\Collections\Collection;
-use Lifo\TypeaheadBundle\Form\DataTransformer\EntityToPropertyTransformer;
-use Lifo\TypeaheadBundle\Form\DataTransformer\EntitiesToPropertyTransformer;
 
 class TypeaheadType extends AbstractType
 {
@@ -61,9 +57,9 @@ class TypeaheadType extends AbstractType
 
         // assign some variables to the view template
         $vars = array('render', 'route', 'route_params', 'property',
-                      'minLength', 'items', 'delay', 'spinner',
-                      'multiple', 'allow_add', 'allow_remove', 'empty_value',
-                      'resetOnSelect', 'callback');
+            'minLength', 'items', 'delay', 'spinner',
+            'multiple', 'allow_add', 'allow_remove', 'empty_value',
+            'resetOnSelect', 'callback');
         foreach ($vars as $var) {
             $view->vars[$var] = $options[$var];
         }
@@ -82,35 +78,52 @@ class TypeaheadType extends AbstractType
         }
     }
 
-//    public function configureOptions(OptionsResolver $resolver) // sf2.6+
+    /**
+     * Pre Symfony 2.7 compatibility
+     *
+     * @param OptionsResolverInterface $resolver
+     */
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
+        $this->configureOptions($resolver);
+    }
 
-        //$resolver->setOptional(array(''));
-        $resolver->setRequired(array('class','render','route'));
+    /**
+     * @param OptionsResolver $resolver
+     */
+    public function configureOptions(OptionsResolver $resolver)
+    {
+        $resolver->setRequired(array('class', 'render', 'route'));
         $resolver->setDefaults(array(
-            'em'                => null,
-            'query_builder'     => null,
-            'property'          => null,
-            'empty_value'       => '',
-            'route_params'      => null,
+            'em'            => null,
+            'query_builder' => null,
+            'property'      => null,
+            'empty_value'   => '',
+            'route_params'  => null,
 
-            'multiple'          => false,
-            'allow_add'         => false,
-            'allow_remove'      => false,
+            'multiple'      => false,
+            'allow_add'     => false,
+            'allow_remove'  => false,
 
-            'delay'             => 250,
-            'minLength'         => 2,
-            'items'             => 10,
-            'spinner'           => 'glyphicon glyphicon-refresh spin',
-            'resetOnSelect'     => function(Options $options) { return $options['multiple']; },
-            'callback'          => null,
+            'delay'         => 250,
+            'minLength'     => 2,
+            'items'         => 10,
+            'spinner'       => 'glyphicon glyphicon-refresh spin',
+            'resetOnSelect' => function (Options $options) {
+                return $options['multiple'];
+            },
+            'callback'      => null,
 
-            'compound'          => false, //function(Options $options){ return $options['multiple']; },
+            'compound'      => false, //function(Options $options){ return $options['multiple']; },
         ));
     }
 
     public function getName()
+    {
+        return $this->getBlockPrefix();
+    }
+
+    public function getBlockPrefix()
     {
         return 'entity_typeahead';
     }

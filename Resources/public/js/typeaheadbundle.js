@@ -28,7 +28,7 @@
 
     defs.beforeSend = function(xhr, opts) {
         if (!this.options.spinner || this.$addon.data('prev-icon-class') != undefined) return;
-        var icon = this.$addon.find('[class*="glyphicon-"]');
+        var icon = this.$addon.children().first();
         if (icon.length >= 1) {
             this.$addon.data('prev-icon-class', icon.attr('class'));
             icon.attr('class', this.options.spinner);
@@ -37,7 +37,7 @@
 
     defs.afterSend = function(xhr, status) {
         if (!this.options.spinner || this.$addon.data('prev-icon-class') == undefined) return;
-        var icon = this.$addon.find('[class*="glyphicon-"]');
+        var icon = this.$addon.children().first();
         if (icon.length >= 1) {
             var cls = this.$addon.data('prev-icon-class');
             this.$addon.removeData('prev-icon-class');

@@ -43,7 +43,7 @@
 
 {% block entity_typeahead_multiple_widget %}
 {% spaceless %}
-    <ul id="{{ id }}_list" class="lifo-typeahead-list" {% if attr.input_group is not empty %}style="display:none"{% endif %}>
+    <ul id="{{ id }}_list" class="lifo-typeahead-list" {% if 'input_group' in attr and attr.input_group is not empty %}style="display:none"{% endif %}>
     {% for child in form.vars.data if child is not null %}
         {{ block('entity_typeahead_list_widget') }}
     {% endfor %}

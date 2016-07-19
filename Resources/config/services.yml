@@ -13,10 +13,3 @@ services:
         class: "%lifo_typeahead.typeahead_type.class%"
         arguments: ["@service_container", "@doctrine.orm.entity_manager", "@router"]
         tags: [{ name: form.type, alias: entity_typeahead }]
-
-    # experimental extension ...
-    #lifo_typeahead.form.form_extension:
-    #    class: Lifo\TypeaheadBundle\Form\Extension\FormExtension
-    #    arguments: []
-    #    tags: [{ name: form.type_extension, alias: form }]
-        

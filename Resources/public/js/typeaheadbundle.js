@@ -9,7 +9,7 @@
  * Override the base Typeahead object with new features.
  * Based on https://gist.github.com/ecmel/4365063
  */
-!function($) {
+!function ($) {
     var defs = $.fn.typeahead.defaults,
         base = $.fn.typeahead.Constructor.prototype;
 
@@ -26,7 +26,7 @@
     defs.resetOnSelect = false;     // reset the input when an item is selected?
     defs.change = null;             // onChange callback when $element is changed
 
-    defs.beforeSend = function(xhr, opts) {
+    defs.beforeSend = function (xhr, opts) {
         if (!this.options.spinner || this.$addon.data('prev-icon-class') != undefined) return;
         var icon = this.$addon.children().first();
         if (icon.length >= 1) {
@@ -35,7 +35,7 @@
         }
     };
 
-    defs.afterSend = function(xhr, status) {
+    defs.afterSend = function (xhr, status) {
         if (!this.options.spinner || this.$addon.data('prev-icon-class') == undefined) return;
         var icon = this.$addon.children().first();
         if (icon.length >= 1) {
@@ -45,7 +45,7 @@
         }
     };
 
-    defs.source = function(query, process) {
+    defs.source = function (query, process) {
         query = $.trim(query.toLowerCase());
 
         if (query === '' || query.length < this.options.minLength) {
@@ -70,10 +70,15 @@
             context: this,
             url: this.options.url,
             type: 'post',
-            data: { query: query, limit: this.options.items },
+            data: {
+                query: query,
+                limit: this.options.items,
+                property: this.$element.data('property'),
+                render: this.$element.data('render')
+            },
             beforeSend: this.options.beforeSend,
             complete: this.options.afterSend,
-            success: function(data) {
+            success: function (data) {
                 that.queries[query] = items = [];       // clear cache
                 for (var i = 0; i < data.length; i++) {
                     if (data[i].value !== undefined && data[i].id !== undefined) {
@@ -96,11 +101,11 @@
         return null;
     };
 
-    base.select = function() {
+    base.select = function () {
         var val = this.updater(this.$menu.find('.active').attr('data-value'));
         this.$element
-          .val(this.options.resetOnSelect ? '' : val)
-          .change();
+            .val(this.options.resetOnSelect ? '' : val)
+            .change();
 
         if ($.isFunction(this.options.change)) {
             this.options.change.apply(this, [val, this.ids[val]]);
@@ -113,7 +118,7 @@
         return this.hide();
     };
 
-    base.updater = function(item) {
+    base.updater = function (item) {
         // update value of related field
         if (this.$id && this.ids[item]) {
             this.$id.val(this.ids[item].id);
@@ -141,7 +146,7 @@
         return this._updater(item);
     };
 
-    base.blur = function(e) {
+    base.blur = function (e) {
         // only call updater if a menu item was not selected. This prevents a
         // flicker of the original (orig) from showing up briefly when user
         // selects an item from the menu.
@@ -151,16 +156,18 @@
         this._blur(e);
     };
 
-    base.lookup = function() {
+    base.lookup = function () {
         if (this.options.delay) {
             clearTimeout(this.delayedLookup);
-            this.delayedLookup = setTimeout($.proxy(function(){ this._lookup() }, this), this.options.delay);
+            this.delayedLookup = setTimeout($.proxy(function () {
+                this._lookup()
+            }, this), this.options.delay);
         } else {
             this._lookup();
         }
     };
 
-    base.listen = function() {
+    base.listen = function () {
         this._listen();
 
         this.ids = {};
@@ -168,68 +175,68 @@
 
         // save original value when page was loaded
         if (this.orig === undefined) {
-            this.orig = { value: this.$element.val() };
+            this.orig = {value: this.$element.val()};
         }
 
         // maintain relationship with another element that will hold the
         // selected ID (usually a hidden input).
         if (this.options.id) {
-            this.$id = $('#' + this.options.id.replace(/(:|\.|\[|\])/g, '\\$1'));
+            this.$id = $('#' + this.options.id.replace(/(:|\.|\[|])/g, '\\$1'));
             if (this.$element.val() != '') {
-                this.ids[this.$element.val()] = { id: this.$id.val(), value: this.$element.val() };
+                this.ids[this.$element.val()] = {id: this.$id.val(), value: this.$element.val()};
             }
             this.orig.id = this.$id.val();
         }
 
         // handle pasting via mouse
         this.$element
-            //.on('contextmenu', $.proxy(this.on_contextmenu, this))
             .on('paste', $.proxy(this.on_paste, this));
 
         // any "addon" icons?
         this.$addon = this.$element.siblings('.input-group-addon');
     };
 
-    base.on_paste = function(e) {
+    base.on_paste = function () {
         // since the pasted text has not actually been updated in the input
         // when this event fires we have to put a very small delay before
         // triggering a new lookup or else it'll simply do the lookup with
         // the current text in the input.
         clearTimeout(this.pasted);
-        this.pasted = setTimeout($.proxy(function(){ this.lookup(); this.pasted = undefined; }, this), 100);
+        this.pasted = setTimeout($.proxy(function () {
+            this.lookup();
+            this.pasted = undefined;
+        }, this), 100);
     };
-
-    // convienence method to auto-select the input text; might not actually
-    // be wanted in all cases but for now I want it...
-    //base.on_contextmenu = function(e) {
-    //    this.$element.select();
-    //}
 }(jQuery);
 
-!function($) {
-    $(function(){
-        // The controller handling the request already filtered the items and
+!function ($) {
+    $(function () {
+        // The controller handling the request already have filtered the items and
         // its possible it matched things that are not in the displayed label so
         // we must return true for all.
-        var matcher = function(){ return true };
+        var matcher = function () {
+            return true
+        };
 
-        // callback when the $element is changed. Gives our customization a
-        // chance to act on the new data.
-        var change = function(text, data){
-            var _id = this.$id.attr('id');
-            var list = $('#' + _id + '_list');
+        // callback when the $element is changed.
+        var change = function (text, data) {
+            var _id = this.$id.attr('id'),
+                list = $('#' + _id + '_list'),
+                formName = this.$element.closest('form').prop('name');
+
             if (list.length) {
                 var li = list.find('#' + _id + '_' + data.id);
                 if (!li.length) {
-                    // convert 'name_subname_extraname' to 'name[subname][extraname][]'
-                    var name = _id.split(/_/);
+                    // convert 'formname_subname_subname' to 'formname[subname][subname][]'
+                    // "formname" can safely have underscores
+                    var name = (formName ? _id.replace(formName + '_', '') : _id).split('_');
+                    if (formName) name.unshift(formName);
                     name = (name.length > 1 ? name.shift() + '[' + name.join('][') + ']' : name.join()) + '[]';
-                    li = $( this.$id.data('prototype') );
+                    li = $(this.$id.data('prototype'));
                     li.data('value', data.id)
                         .find('input:hidden').val(data.id).attr('id', _id + '_' + data.id).attr('name', name).end()
                         .find('.lifo-typeahead-item').text(text).end()
-                        .appendTo(list)
-                        ;
+                        .appendTo(list);
                 }
             }
 
@@ -238,7 +245,7 @@
             }
         };
 
-        var typeahead = function(e){
+        var typeahead = function () {
             var me = $(this);
             if (me.data('typeahead')) return;
 
@@ -246,6 +253,7 @@
                 opts = {
                     id: me.attr('id').replace(/_text$/, ''),
                     url: d.url,
+                    source: d.source,
                     change: change,
                     matcher: matcher
                 };
@@ -253,7 +261,7 @@
             if (undefined !== d.items && d.items != '') opts.items = d.items;
             if (undefined !== d.spinner) opts.spinner = d.spinner;
             if (undefined !== d.minlength && d.minlength != '') opts.minLength = d.minlength;
-            if (undefined !== d.resetonselect && d.resetonselect != '') opts.resetOnSelect = d.resetonselect ? true : false;
+            if (undefined !== d.resetonselect && d.resetonselect != '') opts.resetOnSelect = d.resetonselect;
             if (undefined !== d.callback && d.callback != '') opts.callback = d.callback;
 
             // allow the defined callback to be a function string
@@ -262,6 +270,15 @@
                 && $.isFunction(window[opts.callback])) {
                 opts.callback = window[opts.callback];
             }
+
+            if (typeof opts.source == 'string'
+                && opts.source in window
+                && $.isFunction(window[opts.source])) {
+                opts.source = window[opts.source];
+            } else {
+                opts.source = undefined;
+            }
+
 
             me.typeahead(opts);
 
@@ -279,7 +296,7 @@
 
             // on-click handler to remove items from <ul> list
             list.on({
-                'click.lifo-typeahead': function(e){
+                'click.lifo-typeahead': function (e) {
                     // @todo make this 'prettier' ... fade out, etc...
                     $(this).closest('li').remove();
                     e.preventDefault();

@@ -16,6 +16,7 @@ class EntityToPropertyTransformer implements DataTransformerInterface
     protected $className;
     protected $property;
     protected $unitOfWork;
+    protected $accessor;
 
     public function __construct(EntityManager $em, $class, $property = 'id')
     {
@@ -23,37 +24,42 @@ class EntityToPropertyTransformer implements DataTransformerInterface
         $this->unitOfWork = $this->em->getUnitOfWork();
         $this->className = $class;
         $this->property = $property;
+        $this->accessor = PropertyAccess::createPropertyAccessor();
     }
 
     public function transform($entity)
     {
-        if (null === $entity) {
+        if (empty($entity)) {
             return null;
         }
 
-        //if (!$this->unitOfWork->isInIdentityMap($entity) and !$this->unitOfWork->isScheduledForInsert($entity)) {
-        //    throw new TransformationFailedException("Entities must be managed");
-        //}
+        if ($this->className) {
+            if (!empty($this->property)) {
+                return $this->accessor->getValue($entity, $this->property);
+            } else {
+                return current($this->unitOfWork->getEntityIdentifier($entity));
+            }
+        }
 
-        return !empty($this->property)
-            ? PropertyAccess::getPropertyAccessor()->getValue($entity, $this->property)
-            : current($this->unitOfWork->getEntityIdentifier($entity));
+        return $entity;
     }
 
 
     public function reverseTransform($value)
     {
-        if ($value === '' or $value === null) {
+        if (empty($value)) {
             return null;
         }
 
-        $repo = $this->em->getRepository($this->className);
-        if (!empty($this->property)) {
-            $entity = $repo->findOneBy(array($this->property => $value));
-        } else {
-            $entity = $repo->find($value);
+        if ($this->className) {
+            $repo = $this->em->getRepository($this->className);
+            if (!empty($this->property)) {
+                return $repo->findOneBy(array($this->property => $value));
+            } else {
+                return $repo->find($value);
+            }
         }
 
-        return $entity;
+        return $value;
     }
 }

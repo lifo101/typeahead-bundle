@@ -9,13 +9,16 @@
     {% set attr = attr|merge({
         'autocomplete': 'off',
         'data-provide': 'lifo-typeahead',
-        'data-multiple': multiple,
+        'data-multiple': multiple ? 'true' : 'false',
+        'data-property': property,
+        'data-render': render,
         'data-items': items|default(8),
         'data-minlength': minLength|default(2),
-        'data-resetonselect': resetOnSelect,
+        'data-resetonselect': resetOnSelect ? 'true' : 'false',
         'data-spinner': spinner,
         'data-callback': callback,
         'data-delay': delay,
+        'data-source': source,
         'data-route': route,
         'data-route-params': route_params ? route_params|json_encode : '',
         'data-url': url
@@ -53,9 +56,14 @@
 
 {% block entity_typeahead_list_widget %}
 {% spaceless %}
-    <li{% if child is not null %} data-value="{{ child.id }}"{% endif %}>
-        <input{% if child is not null %} id="{{ id ~ '_' ~ child.id }}" name="{{ full_name }}[]" value="{{ attribute(child, property ? property : 'id') }}"{% endif %} type="hidden" />
-        <a href="" class="lifo-typeahead-item" title="{{ "Click to remove"|trans }}">{{ child is not null ? attribute(child, render) : '' }}</a>
+    {% if simple %}
+        {% set _id, _value, _render = child, child, child %}
+    {% else %}
+        {% set _id, _value, _render = child.id, attribute(child, property ?: 'id'), attribute(child, render) %}
+    {% endif %}
+    <li{% if child is not null %} data-value="{{ _id }}"{% endif %}>
+        <input{% if child is not null %} id="{{ id ~ '_' ~ _id }}" name="{{ full_name }}[]" value="{{ _value }}"{% endif %} type="hidden" />
+        <a href="" class="lifo-typeahead-item" title="{{ "Click to remove"|trans }}">{{ child is not null ? _render : '' }}</a>
     </li>
 {% endspaceless %}
 {% endblock %}

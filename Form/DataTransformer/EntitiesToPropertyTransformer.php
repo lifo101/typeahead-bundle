@@ -2,13 +2,10 @@
 
 namespace Lifo\TypeaheadBundle\Form\DataTransformer;
 
-use Symfony\Component\Form\DataTransformerInterface;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Driver\DriverException;
 use Symfony\Component\Form\Exception\TransformationFailedException;
 use Symfony\Component\Form\Exception\UnexpectedTypeException;
-use Symfony\Component\PropertyAccess\PropertyAccess;
-use Doctrine\ORM\EntityManager;
-use Doctrine\Common\Collections\Collection;
-use Doctrine\Common\Collections\ArrayCollection;
 
 class EntitiesToPropertyTransformer extends EntityToPropertyTransformer
 {
@@ -26,14 +23,18 @@ class EntitiesToPropertyTransformer extends EntityToPropertyTransformer
             throw new UnexpectedTypeException($array, 'array');
         }
 
-        $return = array();
-        foreach ($array as $entity) {
-            $value = parent::transform($entity);
-            if ($value !== null) {
-                $return[] = $value;
+        if ($this->className) {
+            $return = array();
+            foreach ($array as $entity) {
+                $value = parent::transform($entity);
+                if ($value !== null) {
+                    $return[] = $value;
+                }
             }
+            return $return;
         }
-        return $return;
+
+        return $array;
     }
 
 
@@ -47,13 +48,20 @@ class EntitiesToPropertyTransformer extends EntityToPropertyTransformer
             throw new UnexpectedTypeException($array, 'array');
         }
 
-        $return = new ArrayCollection();
-        foreach ($array as $value) {
-            $entity = parent::reverseTransform($value);
-            if ($value !== null) {
-                $return[] = $entity;
+        if ($this->className) {
+            try {
+                return $this->em->createQueryBuilder()
+                    ->select('e')
+                    ->from($this->className, 'e')
+                    ->where('e.' . $this->property . ' IN (:ids)')
+                    ->setParameter('ids', $array)
+                    ->getQuery()
+                    ->getResult();
+            } catch (DriverException $ex) {
+                throw new TransformationFailedException('One or more "' . $this->property . '" values are invalid');
             }
         }
-        return $return;
+
+        return $array;
     }
 }

@@ -53,16 +53,16 @@ class TypeaheadType extends AbstractType
     public function finishView(FormView $view, FormInterface $form, array $options)
     {
         parent::finishView($view, $form, $options);
-        //$cfg = $form->getConfig();
 
         // assign some variables to the view template
-        $vars = array('render', 'route', 'route_params', 'property',
-            'minLength', 'items', 'delay', 'spinner',
-            'multiple', 'allow_add', 'allow_remove', 'empty_value',
-            'resetOnSelect', 'callback');
+        $vars = array(
+            'render', 'route', 'route_params', 'property', 'minLength', 'items', 'delay', 'spinner', 'multiple',
+            'allow_add', 'allow_remove', 'empty_value', 'resetOnSelect', 'callback', 'source',
+        );
         foreach ($vars as $var) {
             $view->vars[$var] = $options[$var];
         }
+        $view->vars['simple'] = empty($options['class']);
 
         // convert the route into an URL
         if (!empty($options['route'])) {
@@ -93,28 +93,28 @@ class TypeaheadType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setRequired(array('class', 'render', 'route'));
+        $resolver->setRequired(array('render'));
         $resolver->setDefaults(array(
             'em'            => null,
             'query_builder' => null,
-            'property'      => null,
+            'class'         => null,
+            'property'      => 'id',
             'empty_value'   => '',
+            'route'         => null,
             'route_params'  => null,
-
+            'source'        => null,
             'multiple'      => false,
             'allow_add'     => false,
             'allow_remove'  => false,
-
             'delay'         => 250,
             'minLength'     => 2,
             'items'         => 10,
             'spinner'       => 'glyphicon glyphicon-refresh spin',
+            'callback'      => null,
+            'compound'      => false,
             'resetOnSelect' => function (Options $options) {
                 return $options['multiple'];
             },
-            'callback'      => null,
-
-            'compound'      => false, //function(Options $options){ return $options['multiple']; },
         ));
     }
 

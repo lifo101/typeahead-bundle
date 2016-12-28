@@ -1,6 +1,6 @@
 {% block entity_typeahead_widget %}
 {% spaceless %}
-    {% set required, main_full_name, main_id, main_value, main_attr = false, full_name, id, value, attr %}
+    {% set main_full_name, main_id, main_value, main_attr = full_name, id, value, attr %}
 
     {# create visible autocomplete input #}
     {% set id = main_id ~ '_text' %}

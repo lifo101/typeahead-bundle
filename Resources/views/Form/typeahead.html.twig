@@ -59,7 +59,11 @@
     {% if simple %}
         {% set _id, _value, _render = child, child, child %}
     {% else %}
-        {% set _id, _value, _render = child.id, attribute(child, property ?: 'id'), attribute(child, render) %}
+        {% if child is null %}
+            {% set _id, _value, _render = null, null, null %}
+        {% else %}
+            {% set _id, _value, _render = child.id, attribute(child, property ?: 'id'), attribute(child, render) %}
+        {% endif %}
     {% endif %}
     <li{% if child is not null %} data-value="{{ _id }}"{% endif %}>
         <input{% if child is not null %} id="{{ id ~ '_' ~ _id }}" name="{{ full_name }}[]" value="{{ _value }}"{% endif %} type="hidden" />

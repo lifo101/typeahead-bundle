@@ -82,7 +82,7 @@ class LifoTypeaheadExtension extends Extension implements PrependExtensionInterf
     protected function configureTwigBundle(ContainerBuilder $container, array $config)
     {
         if ($container->hasExtension('twig')) {
-            $resources = array('LifoTypeaheadBundle:Form:typeahead.html.twig');
+            $resources = array('@LifoTypeahead\Form\typeahead.html.twig');
             if (Kernel::VERSION_ID >= '20600') {
                 $container->prependExtensionConfig('twig', array('form_themes' => $resources));
             } else {

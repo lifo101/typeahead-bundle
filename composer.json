@@ -10,8 +10,6 @@
             "email": "lifo2013@gmail.com"
         }
     ],
-    "require": {
-    },
     "suggest":  {
         "twbs/bootstrap": "Bootstrap framework",
         "mopa/bootstrap-bundle": "Bundle to automatically enable Bootstrap styles for Symfony"

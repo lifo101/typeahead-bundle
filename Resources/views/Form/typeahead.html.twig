@@ -56,7 +56,7 @@
 
 {% block entity_typeahead_list_widget %}
 {% spaceless %}
-    {% if simple %}
+    {% if simple or child == null %}
         {% set _id, _value, _render = child, child, child %}
     {% else %}
         {% set _id, _value, _render = child.id, attribute(child, property ?: 'id'), attribute(child, render) %}

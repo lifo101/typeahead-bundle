@@ -18,8 +18,13 @@ class Configuration implements ConfigurationInterface
      */
     public function getConfigTreeBuilder()
     {
-        $treeBuilder = new TreeBuilder('lifo_typeahead');
-        $rootNode = $treeBuilder->getRootNode();
+        if (Kernel::VERSION_ID < 40000) {
+            $treeBuilder = new TreeBuilder();
+            $rootNode = $treeBuilder->root('lifo_typeahead');
+        } else {
+            $treeBuilder = new TreeBuilder('lifo_typeahead');
+            $rootNode = $treeBuilder->getRootNode();
+        }
 
         $rootNode
             ->children()

@@ -2,12 +2,11 @@
 
 namespace Lifo\TypeaheadBundle\Twig\Extension;
 
-use Assetic\Asset\AssetCollection;
-use Assetic\Asset\StringAsset;
-use Assetic\Filter\Yui\JsCompressorFilter;
 use Lifo\TypeaheadBundle\Form\Type\TypeaheadType;
+use Twig\Extension\AbstractExtension;
+use Twig\TwigFunction;
 
-class TypeaheadTwigExtension extends \Twig_Extension
+class TypeaheadTwigExtension extends AbstractExtension
 {
     public function getName()
     {
@@ -17,7 +16,7 @@ class TypeaheadTwigExtension extends \Twig_Extension
     public function getFunctions()
     {
         return array(
-            new \Twig_SimpleFunction('lifo_typeahead_init', array($this, 'initTypeaheadFunction'), array('needs_environment' => true, 'is_safe' => array('html'))),
+            new TwigFunction('lifo_typeahead_init', array($this, 'initTypeaheadFunction'), array('needs_environment' => true, 'is_safe' => array('html'))),
         );
     }
 

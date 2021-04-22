@@ -4,6 +4,7 @@ namespace Lifo\TypeaheadBundle\DependencyInjection;
 
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
+use Symfony\Component\HttpKernel\Kernel;
 
 class Configuration implements ConfigurationInterface
 {
@@ -18,8 +19,13 @@ class Configuration implements ConfigurationInterface
      */
     public function getConfigTreeBuilder()
     {
-        $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root('lifo_typeahead');
+        if (Kernel::VERSION_ID < 40000) {
+            $treeBuilder = new TreeBuilder();
+            $rootNode = $treeBuilder->root('lifo_typeahead');
+        } else {
+            $treeBuilder = new TreeBuilder('lifo_typeahead');
+            $rootNode = $treeBuilder->getRootNode();
+        }
 
         $rootNode
             ->children()

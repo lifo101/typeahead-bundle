@@ -1,5 +1,4 @@
 {% block entity_typeahead_widget %}
-{% spaceless %}
     {% set main_full_name, main_id, main_value, main_attr = full_name, id, value, attr %}
 
     {# create visible autocomplete input #}
@@ -41,21 +40,19 @@
         {% set id, full_name = main_id, main_full_name %}
         {{ block('entity_typeahead_multiple_widget') }}
     {% endif %}
-{% endspaceless %}
 {% endblock %}
 
 {% block entity_typeahead_multiple_widget %}
-{% spaceless %}
     <ul id="{{ id }}_list" class="lifo-typeahead-list" {% if 'input_group' in attr and attr.input_group is not empty %}style="display:none"{% endif %}>
-    {% for child in form.vars.data if child is not null %}
-        {{ block('entity_typeahead_list_widget') }}
+    {% for child in form.vars.data %}
+        {% if child is not null %}
+            {{ block('entity_typeahead_list_widget') }}
+        {% endif %}
     {% endfor %}
     </ul>
-{% endspaceless %}
 {% endblock %}
 
 {% block entity_typeahead_list_widget %}
-{% spaceless %}
     {% if simple %}
         {% set _id, _value, _render = child, child, child %}
     {% else %}
@@ -65,5 +62,4 @@
         <input{% if child is not null %} id="{{ id ~ '_' ~ _id }}" name="{{ full_name }}[]" value="{{ _value }}"{% endif %} type="hidden" />
         <a href="" class="lifo-typeahead-item" title="{{ "Click to remove"|trans }}">{{ child is not null ? _render : '' }}</a>
     </li>
-{% endspaceless %}
 {% endblock %}
